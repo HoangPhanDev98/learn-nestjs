@@ -1,5 +1,14 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
-import { User } from 'src/decorator/customize';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { ResponseMessage, User } from 'src/decorator/customize';
 import { IUser } from 'src/users/users.interface';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
@@ -8,6 +17,20 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 @Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
+
+  @Get()
+  @ResponseMessage('Fetch all companies')
+  findAll(
+    @Query('page') currentPage: string,
+    @Query('limit') limit: string,
+    @Query() query: string,
+  ) {
+    return this.companiesService.findAll(
+      Number(currentPage),
+      Number(limit),
+      query,
+    );
+  }
 
   @Post()
   create(@Body() createCompanyDto: CreateCompanyDto, @User() user: IUser) {
@@ -21,5 +44,10 @@ export class CompaniesController {
     @User() user: IUser,
   ) {
     return this.companiesService.update(id, updateCompanyDto, user);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string, @User() user: IUser) {
+    return this.companiesService.delete(id, user);
   }
 }
