@@ -10,7 +10,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  public async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.userService.findByEmail(username);
 
     if (user) {
@@ -27,7 +27,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: IUser) {
+  public async login(user: IUser) {
     const { _id, name, email, role } = user;
 
     const payload = {
@@ -45,6 +45,15 @@ export class AuthService {
       name,
       email,
       role,
+    };
+  }
+
+  public async register(registerUserDto: any) {
+    const user = await this.userService.register(registerUserDto);
+
+    return {
+      _id: user?._id,
+      createdAt: user?.createdAt,
     };
   }
 }
