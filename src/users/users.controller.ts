@@ -28,8 +28,8 @@ export class UsersController {
   @ResponseMessage('Fetch all users')
   @Get()
   findAll(
-    @Query('page') currentPage: string,
-    @Query('limit') limit: string,
+    @Query('current') currentPage: string,
+    @Query('pageSize') limit: string,
     @Query() query: string,
   ) {
     return this.usersService.findAll(+currentPage, +limit, query);

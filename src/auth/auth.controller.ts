@@ -19,28 +19,37 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @ResponseMessage('Login user')
   @UseGuards(LocalAuthGuard)
   @Post('/login')
+  @ResponseMessage('Login user')
   handleLogin(@Req() req, @Res({ passthrough: true }) response: Response) {
     return this.authService.login(req.user, response);
   }
 
   @Public()
-  @ResponseMessage('Register a new user')
   @Post('/register')
+  @ResponseMessage('Register a new user')
   async register(@Body() registerUserDto: RegisterUserDto) {
     return this.authService.register(registerUserDto);
   }
 
   @Public()
-  @ResponseMessage('Refresh token')
   @Post('/refresh')
+  @ResponseMessage('Refresh token')
   async refreshToken(
     @Req() req,
     @Res({ passthrough: true }) response: Response,
   ) {
     return this.authService.refreshToken(req.cookies.refresh_token, response);
+  }
+
+  @Post('/logout')
+  @ResponseMessage('Logout user')
+  async logout(
+    @User() user: IUser,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    return this.authService.logout(user, response);
   }
 
   @Get('/account')
