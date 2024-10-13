@@ -34,7 +34,7 @@ export class AuthController {
   }
 
   @Public()
-  @Post('/refresh')
+  @Get('/refresh')
   @ResponseMessage('Refresh token')
   async refreshToken(
     @Req() req,
