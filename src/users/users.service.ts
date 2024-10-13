@@ -160,4 +160,19 @@ export class UsersService {
   public isValidPassword(password: string, hashPassword: string) {
     return bcrypt.compareSync(password, hashPassword);
   }
+
+  public async updateRefreshToken(userId: string, refreshToken: string) {
+    return this.userModel.updateOne(
+      { _id: userId },
+      {
+        refreshToken,
+      },
+    );
+  }
+
+  public async findByRefreshToken(refreshToken: string) {
+    return this.userModel.findOne({
+      refreshToken,
+    });
+  }
 }
