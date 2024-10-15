@@ -11,7 +11,7 @@ import {
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Public, ResponseMessage, User } from 'src/decorator/customize';
+import { ResponseMessage, User } from 'src/decorator/customize';
 import { IUser } from './users.interface';
 
 @Controller('users')
@@ -24,7 +24,6 @@ export class UsersController {
     return this.usersService.create(createUserDto, user);
   }
 
-  @Public()
   @ResponseMessage('Fetch all users')
   @Get()
   findAll(
@@ -35,7 +34,6 @@ export class UsersController {
     return this.usersService.findAll(+currentPage, +limit, query);
   }
 
-  @Public()
   @ResponseMessage('Fetch a user by id')
   @Get(':id')
   findOne(@Param('id') id: string) {
