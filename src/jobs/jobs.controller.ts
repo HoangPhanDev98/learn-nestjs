@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { JobsService } from './jobs.service';
-import { ResponseMessage, User } from 'src/decorator/customize';
+import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { CreateJobDto } from './dto/create-job.dto';
 import { IUser } from '../users/users.interface';
 import { UpdateJobDto } from './dto/update-job.dto';
@@ -18,6 +18,7 @@ import { UpdateJobDto } from './dto/update-job.dto';
 export class JobsController {
   constructor(private readonly jobsService: JobsService) {}
 
+  @Public()
   @Get()
   @ResponseMessage('Fetch all jobs')
   findAll(
@@ -28,6 +29,7 @@ export class JobsController {
     return this.jobsService.findAll(+currentPage, +limit, query);
   }
 
+  @Public()
   @Get(':id')
   @ResponseMessage('Fetch a job by id')
   findOne(@Param('id') id: string) {
